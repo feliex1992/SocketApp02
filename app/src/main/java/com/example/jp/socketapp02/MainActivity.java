@@ -51,12 +51,13 @@ public class MainActivity extends AppCompatActivity {
 
         sckClient.Send(etMessage.getText().toString());
 
+        /**
         hendlerd.postDelayed(new Runnable() {
             @Override
             public void run() {
                 sckClient.Send(etMessage.getText().toString());
             }
-        },1000);
+        },1000);*/
     }
 
     class MyServerThread implements Runnable {
