@@ -1,15 +1,23 @@
 package com.example.jp.socketapp02;
 
-import android.nfc.Tag;
+import android.content.Context;
 import android.util.Log;
-import android.widget.EditText;
+import android.view.ContextThemeWrapper;
+import android.widget.Toast;
 
+import java.io.BufferedReader;
 import java.io.IOException;
+import java.io.InputStream;
+import java.io.InputStreamReader;
 import java.io.PrintWriter;
 import java.net.InetAddress;
 import java.net.InetSocketAddress;
 import java.net.Socket;
-import java.util.jar.JarEntry;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.logging.Handler;
+import java.util.logging.LogRecord;
+import java.util.prefs.NodeChangeListener;
 
 /**
  * Created by JP on 12/20/2017.
@@ -26,10 +34,32 @@ public class SocketClient {
 
     private long startTime = 01;
 
+    boolean receiveThreadRunning = false;
+    private Thread receiveThread;
+
+    public boolean isConnected() {
+        return sckClient != null && sckClient.isConnected() && !sckClient.isClosed();
+    }
+
     public void Connect(String ip, int port){
         serverIp = ip;
         serverPort = port;
         new Thread(new ConnectRunnable()).start();
+    }
+
+    public void Disconnect() {
+        stopThreads();
+
+        try {
+            sckClient.close();
+            Log.d(TAG,"Disconnected!");
+        } catch (IOException e) { }
+
+    }
+
+    private void stopThreads() {
+        if (receiveThread != null)
+            receiveThread.interrupt();
     }
 
     public class ConnectRunnable implements Runnable{
@@ -68,13 +98,6 @@ public class SocketClient {
             }catch (Exception e){
                 Log.d(TAG, "Error Kirim : " + e.toString());
             }
-        }
-    }
-
-    public class ReceiveRunnable implements Runnable{
-
-        public void run(){
-
         }
     }
 }
