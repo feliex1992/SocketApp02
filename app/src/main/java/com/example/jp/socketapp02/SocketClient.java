@@ -31,11 +31,9 @@ public class SocketClient {
     private int serverPort = 1024;
 
     private String strData;
+    public String strKirim;
 
     private long startTime = 01;
-
-    boolean receiveThreadRunning = false;
-    private Thread receiveThread;
 
     public boolean isConnected() {
         return sckClient != null && sckClient.isConnected() && !sckClient.isClosed();
@@ -58,8 +56,8 @@ public class SocketClient {
     }
 
     private void stopThreads() {
-        if (receiveThread != null)
-            receiveThread.interrupt();
+        //if (ConnectRunnable != null)
+        //    ConnectRunnable.interrupt();
     }
 
     public class ConnectRunnable implements Runnable{
@@ -75,6 +73,7 @@ public class SocketClient {
 
                 long time = System.currentTimeMillis() - startTime;
                 Log.d(TAG,"Connected! Current duration: " + time + "ms");
+                Send(strKirim);
             }catch (Exception e){
                 Log.d(TAG,"Error Connect : " + e.toString());
             }
