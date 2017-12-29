@@ -113,7 +113,11 @@ public class MainActivity extends AppCompatActivity {
 
     //=====================================[SCAN BARCODE]========================================================
     public void scanBarcode(View view){
-
+        if (view.getId() == R.id.btSearch) {
+            //scan
+            IntentIntegrator scanIntegrator = new IntentIntegrator(this);
+            scanIntegrator.initiateScan();
+        }
     }
     //===================================[END SCAN BARCODE]======================================================
 
